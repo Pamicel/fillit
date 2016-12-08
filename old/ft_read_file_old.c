@@ -5,39 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/08 15:56:30 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/08 17:26:25 by apissier         ###   ########.fr       */
+/*   Created: 2016/12/08 12:12:37 by apissier          #+#    #+#             */
+/*   Updated: 2016/12/08 12:59:09 by apissier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
+#include "libft.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-#define BUFF_SIZE 21
+#define BUFF_SIZE 22
 
-char        **ft_read_file(char *str)
+static char		*ft_split_tetriminos(char *str)
 {
-    int     fd;
-    int     ret;
-    int    *s;
-    int     i;
-    char    buf[BUFF_SIZE + 1];
+	int		i;
 
-    i = 0;
-    fd = open(str, O_RDONLY);
-    if (fd == -1)
-        ft_putstr("open() error");
-	while (1)
+	i = 20;
+	while (str[i])
 	{
-		ret = read(fd, buf,BUFF_SIZE);
-		if (ret == 0)
-			break ;
-		buf[ret - 1] = '\0';
-		if (ft_isvalid(buf))
-		{
-			ft_realloc(s, ++i);
-			s[i] = ft_code(buf);
-		}
-	}
+		if (str[i] == '\n')
+			str[i] = '@';
+		i = i + 21;
+    }
+	return (str);
+}
+
+char		**ft_read_file(char *str)
+{
+    int		fd;
+    int		ret;
+    char	**s;
+    int		i;
+    char	buf[BUFF_SIZE + 1];
+
+	i = 0;
+	fd = open(str, O_RDONLY);
+	if (fd == -1)
+		ft_putstr("open() error");
+	ret = read(fd, buf,BUFF_SIZE);
+	ft_split_tetriminos(buf);
+	s = ft_strsplit(buf, '@');
 	if (close(fd) == -1)
 		ft_putstr("open() error");
 	return (s);
