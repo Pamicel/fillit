@@ -1,6 +1,6 @@
 #include "libft.h"
 
-void        *ft_realloc(void *ptr, size_t cur_size size_t new_size)
+void        *ft_realloc(void *ptr, size_t cur_size, size_t new_size)
 {
     void       *new;
     size_t     i;
