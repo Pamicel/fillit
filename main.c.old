@@ -1,0 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pamicel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/11/22 19:42:21 by pamicel           #+#    #+#             */
+/*   Updated: 2016/11/24 11:36:29 by pamicel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#define BUF_SIZE = 255
+#include <fcntl.h>
+
+#include <stdio.h>
+
+
+char			*ft_concatenate(const char *str, const char *buf, \
+								size_t read_size)
+{
+	char	*dst;
+	size_t	str_size;
+
+}
+
+char			*ft_readfile(char *name)
+{
+	int			fd;
+	char		*buf;
+	char		*str;
+	char		*dst;
+	char		*temp_str;
+	size_t		str_size;
+	size_t		read_size;
+
+	buf = (char*)malloc(BUF_SIZE);
+	fd = open(name, O_RDONLY);
+	one_str = ft_strnew(1);
+	if (fd != -1)
+	{
+		while (read_size = read(fd, buf, buf_size))
+		{
+			str_size = ft_strlen(str) + read_size;
+			dst = ft_strnew(str_size);
+			ft_strcpy(dst, str, str_size);
+			temp_str = dst;
+			dst = str;
+			str = temp_str;
+			ft_strlcat(str, buf, str_size);
+		}
+	}
+}
+
+
+static int		ft_strlen(const char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+static int		ft_npounds(const char *str)
+{
+	int n;
+
+	n = 0;
+	while (*str)
+		n += (*str++ == '#');
+	return (n);
+}
+
+static int		ft_validate_tetromino(const char *tetr)
+{
+	return (ft_strlen(tetr) == 20			&&\
+			ft_npounds(tetr) == 4			&&\
+			*(tetr + 4) == 'n'				&&\
+			*(tetr + 4) == *(tetr + 9)		&&\
+			*(tetr + 9) == *(tetr + 14)		&&\
+			*(tetr + 14) == *(tetr + 19)		);
+}
+
+//static char		*ft_isolate_tetromino(char *tetr)
+//{
+//
+
+int		main(int ac, const char **av)
+{
+	while (ac > 1)
+		printf("%d", ft_validate_tetromino(av[--ac]));
+	return (0);
+}
