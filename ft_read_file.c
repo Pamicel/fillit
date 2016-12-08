@@ -10,7 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char		*ft_split_tetriminos(char *str)
+#include "libft.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+#define BUFF_SIZE 22
+
+static char		*ft_split_tetriminos(char *str)
 {
 	int		i;
 
@@ -30,15 +37,15 @@ char		**ft_read_file(char *str)
     int		ret;
     char	**s;
     int		i;
-    char	buf[BUF_SIZE + 1];
+    char	buf[BUFF_SIZE + 1];
 
 	i = 0;
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 		ft_putstr("open() error");
-	ret = read(fd, buf,BUF_SIZE);
+	ret = read(fd, buf,BUFF_SIZE);
 	ft_split_tetriminos(buf);
-	s =ft_strsplit(buf, '@');
+	s = ft_strsplit(buf, '@');
 	if (close(fd) == -1)
 		ft_putstr("open() error");
 	return (s);
