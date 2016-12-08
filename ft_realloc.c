@@ -1,34 +1,20 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/08 17:26:54 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/08 17:27:12 by apissier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "libft.h"
 
-#include "fillit.h"
-
-char        *ft_realloc(char *ptr, size_t size)
+void        *ft_realloc(void *ptr, size_t cur_size size_t new_size)
 {
-    char    *new;
-    int     i;
+    void       *new;
+    size_t     i;
 
-    new = ptr;
-    ptr = NULL;
-    free(ptr);
+    if (new_size <= cur_size)
+      return (ptr);
+    if (!(new = ft_memalloc(new_size)))
+      return (NULL);
     i = 0;
-    if (!(ptr = (char*)malloc(sizeof(size))))
-        return (NULL);
-    while (new[i] && i < (int)size)
+    while (i < cur_size)
     {
-        ptr[i] = new[i];
-        i++;
+      ((char*)new)[i] = ((char*)ptr)[i];
+      i++;
     }
-    new = NULL;
-    free(new);
-    return (ptr);
+    free(ptr);
+    return (new);
 }
