@@ -6,7 +6,7 @@
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 15:56:30 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/09 11:12:56 by apissier         ###   ########.fr       */
+/*   Updated: 2016/12/09 13:36:09 by pamicel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char        **ft_read_file(char *str)
 		buf[ret - 1] = '\0';
 		if (ft_isvalid(buf))
 		{
-			ft_realloc(s, 21, ++i);
+			ft_realloc(s, BUFF_SIZE, ++i);
 			s[i] = ft_code(buf);
 		}
 	}
