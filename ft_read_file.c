@@ -6,7 +6,7 @@
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 15:56:30 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/08 17:26:25 by apissier         ###   ########.fr       */
+/*   Updated: 2016/12/09 11:12:56 by apissier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ char        **ft_read_file(char *str)
 {
     int     fd;
     int     ret;
-    int    *s;
+    char    **s;
     int     i;
     char    buf[BUFF_SIZE + 1];
 
     i = 0;
+	s = NULL;
     fd = open(str, O_RDONLY);
     if (fd == -1)
         ft_putstr("open() error");
@@ -34,7 +35,7 @@ char        **ft_read_file(char *str)
 		buf[ret - 1] = '\0';
 		if (ft_isvalid(buf))
 		{
-			ft_realloc(s, ++i);
+			ft_realloc(s, 21, ++i);
 			s[i] = ft_code(buf);
 		}
 	}
