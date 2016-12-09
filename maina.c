@@ -6,7 +6,7 @@
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 16:44:53 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/09 11:32:11 by apissier         ###   ########.fr       */
+/*   Updated: 2016/12/09 13:56:06 by pamicel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int			main(int argc, char **argv)
 	char *t[7];
 	char **s;
 	char *str;
-	int i;
+	int n;
+
 
 	str = "..##\n...#\n...#\n....\n\n##..\n##..\n....\n....\n\n....\n##..\n#...\n#...\n\n....\n##..\n##..\n.#..\n\n##..\n##..\n....\n....\n\n##..\n....\n.##.\n....\n\n#...\n##..\n.#..\n....\n";
 	t[0] = "..##\n...#\n...#\n....\n";
@@ -34,9 +35,10 @@ int			main(int argc, char **argv)
 	ft_putstr("Error()");
 	else
 	{
+		n = 0;
 		printf("test ft_read_file\n");
-		printf("%s\n", ft_read_file(argv[1]));
-		printf("%s\n", (i ? "\e[32mYES\e[0m" : "\e[41mNO\e[0m"));
+		s = ft_read_file(argv[1]);
+		printf("%s\n", (n ? "\e[32mYES\e[0m" : "\e[41mNO\e[0m"));
 		for (int n = 0; n < 7; n++)
 			printf("tetromino s[%d]\n%s\nft_isvalid ? %s\n", n, s[n], (ft_isvalid(s[n])? "\e[32mVALID\e[0m" : "\e[41mINVALID\e[0m"));
 	}
