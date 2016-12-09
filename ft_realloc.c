@@ -15,21 +15,17 @@
 #include <stdio.h>
 // // //
 
-char	*ft_realloc(char *ptr, size_t size)
+char	*ft_realloc(char *str, size_t size)
 {
-	char	*tmp;
-	int 	i;
+	char	*new;
 
-	tmp = ptr;
-	free(ptr);
-	i = 0;
-	if (!(ptr = ft_strnew(size)))
-		return (NULL);
-	while(tmp[i])
+	if (str && ft_strlen(str) < size)
 	{
-		ptr[i] = tmp[i];
-		i++;
+		if (!(new = ft_strnew(size)))
+			break ;
+		ft_strncpy(new, str, ft_strlen(str));
+		free(str);
+		str = new;
 	}
-	free(tmp);
-	return (ptr);
+	return (str);
 }
