@@ -6,7 +6,7 @@
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 16:56:09 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/09 13:58:12 by pamicel          ###   ########.fr       */
+/*   Updated: 2016/12/09 14:16:57 by apissier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void		ft_putstr(char const *s);
 size_t		ft_strlen(const char *s);
 void		*ft_memalloc(size_t size);
 char		*ft_code(char *str);
+void		*ft_memset(void *s, int c, size_t n);
 
 #endif
