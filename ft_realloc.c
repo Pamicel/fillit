@@ -19,10 +19,8 @@ char	*ft_realloc(char *str, size_t size)
 {
 	char	*new;
 
-	if (str && ft_strlen(str) < size)
+	if (str && (ft_strlen(str) < size) && (new = ft_strnew(size)))
 	{
-		if (!(new = ft_strnew(size)))
-			break ;
 		ft_strncpy(new, str, ft_strlen(str));
 		free(str);
 		str = new;
