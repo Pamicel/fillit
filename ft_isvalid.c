@@ -18,7 +18,7 @@ static int      n_char(char *t, char c)
 
     n = 0;
     while (*t)
-        n += c == *(t++);
+        n += (c == *(t++));
     return (n);
 }
 

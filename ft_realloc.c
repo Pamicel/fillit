@@ -6,27 +6,30 @@
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/09 10:48:25 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/09 10:48:29 by apissier         ###   ########.fr       */
+/*   Updated: 2016/12/09 15:19:35 by pamicel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+// // //
+#include <stdio.h>
+// // //
 
-void        *ft_realloc(void *ptr, size_t cur_size, size_t new_size)
+char	*ft_realloc(char *ptr, size_t size)
 {
-    void       *new;
-    size_t     i;
+	char	*tmp;
+	int 	i;
 
-    if (new_size <= cur_size)
-      return (ptr);
-    if (!(new = ft_memalloc(new_size)))
-      return (NULL);
-    i = 0;
-    while (i < cur_size)
-    {
-      ((char*)new)[i] = ((char*)ptr)[i];
-      i++;
-    }
-    free(ptr);
-    return (new);
+	tmp = ptr;
+	free(ptr);
+	i = 0;
+	if (!(ptr = ft_strnew(size)))
+		return (NULL);
+	while(tmp[i])
+	{
+		ptr[i] = tmp[i];
+		i++;
+	}
+	free(tmp);
+	return (ptr);
 }
