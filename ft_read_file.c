@@ -31,7 +31,6 @@ char        **ft_read_file(char *str)
 	char    buf[BUFF_SIZE + 1];
 
 	ints[1] = 0;
-	codes = NULL;
 	if ((ints[0] = open(str, O_RDONLY)) == -1)
 		ft_putstr("open() error");
 	while (1)
@@ -41,7 +40,8 @@ char        **ft_read_file(char *str)
 		buf[ret - 1] = '\0';
 		if (ft_isvalid(buf))
 		{
-			codes = ft_realloc(codes, ints[1], ++ints[1]);//(char**)realloc((void*)codes, ++ints[1]);
+			write(1, "\e[44mpas segfault\e[0m\n", 13 + 4 + 5);
+			codes = (char**)realloc((void*)codes, ++ints[1]); //ft_realloc(codes, ints[1], ++ints[1]);
 
 			printf("address of codes : %X\n", (int)codes);
 
