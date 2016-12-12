@@ -1,0 +1,128 @@
+test ft_read_file
+address of codes : A9C00D20
+buffer :
+..##
+...#
+...#
+....
+
+ft_code returns 044
+address of codes : A9C00D20
+buffer :
+#...
+###.
+....
+....
+
+ft_code returns 400
+address of codes : A9C00D20
+buffer :
+....
+.###
+...#
+....
+
+ft_code returns 004
+address of codes : A9C00D20
+buffer :
+...#
+...#
+..##
+....
+
+ft_code returns 430
+address of codes : A9C00D20
+buffer :
+..##
+..#.
+..#.
+....
+
+ft_code returns 034
+address of codes : A9C00D20
+buffer :
+##..
+##..
+....
+....
+
+ft_code returns 030
+address of codes : A9C00D20
+buffer :
+....
+####
+....
+....
+
+ft_code returns 000
+address of codes : A9C00D20
+buffer :
+#...
+#...
+#...
+#...
+
+ft_code returns 444
+address of codes : A9C00D20
+buffer :
+....
+..##
+.##.
+....
+
+ft_code returns 020
+address of codes : A9C00D20
+buffer :
+..#.
+.##.
+.#..
+....
+
+ft_code returns 303
+address of codes : A9C00D20
+buffer :
+....
+##..
+.##.
+....
+
+ft_code returns 040
+address of codes : A9C00D20
+buffer :
+#...
+##..
+.#..
+....
+
+ft_code returns 404
+address of codes : A9C00D20
+buffer :
+#...
+##..
+#...
+....
+
+ft_code returns 403
+address of codes : A9C00D20
+buffer :
+###.
+.#..
+....
+....
+
+ft_code returns 003
+address of codes : A9C00D20
+buffer :
+.#..
+##..
+.#..
+....
+
+ft_code returns 304
+address of codes : A9C00D20
+buffer :
+.#..
+###.
+....
+....
+ft_code returns 300
