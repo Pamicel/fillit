@@ -6,7 +6,7 @@
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 17:10:22 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/11 18:41:24 by apissier         ###   ########.fr       */
+/*   Updated: 2016/12/14 17:35:26 by apissier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ static  int     valid_shape(char *t)
 */
 int             ft_isvalid(char *t)
 {
-	if (*t)
-	{
-		return (				   \
+	if (*t && \
 			ft_strlen(t) == 20      && \
             t[4] ==     '\n'        && \
             t[9] ==     '\n'        && \
@@ -68,7 +66,8 @@ int             ft_isvalid(char *t)
             t[19] ==    '\n'        && \
 			n_char(t, '\n') == 4    && \
 			n_char(t, '#')  == 4    && \
-			valid_shape(t)  >= 6    );
+			valid_shape(t)  >= 6    )
+		return (1);
 	}	
      return(0);
 }
