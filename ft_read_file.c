@@ -17,50 +17,109 @@
 
 #define BUFF_SIZE 21
 
+static unsigned short **ft_mappy(void)
+{
+	unsigned short **map;
+
+	map =	ft_memalloc(sizeof(unsigned short) * 16);
+	return (map);
+}
+
+static unsigned short *ft_create_pieces(void)
+{
+	unsigned short 	*all_pieces;
+
+	all_pieces = (unsigned short*)ft_memalloc(sizeof(unsigned short) * 19 * 4);
+	if (!all_pieces)
+		return (NULL);
+	ft_memcpy(all_pieces,\
+		(unsigned short[19 * 4]){16384, 57344, 0, 0, 16384, 49152, 16384, 0, \
+		57344, 16384, 0, 0, 32768, 49152, 32768, 0, 32768, 49152, 16384, 0, \
+		49152, 24576, 0, 0, 16384, 49152, 32768, 0, 24576, 49152, 0, 0, \
+		32768, 32768, 32768, 32768, 61440, 0, 0, 0, 49152, 49152, 0, 0, \
+		49152, 32768, 32768, 0, 16384, 16384, 49152, 0, 57344, 8192, 0, 0, \
+		32768, 57344, 0, 0, 49152, 16384, 16384, 0, 32768, 32768, 49152, 0,\
+		8192, 57344, 0, 0, 57344, 32768, 0, 0},\
+		sizeof(unsigned short) * 19 * 4);
+	return (all_pieces);
+}
+
 /*
 ** ft_read_file :
 ** ints[0] fd
 ** ints[1] nbr of codes ( <=> tetrominos )
 */
 
-
-
-
-char			**ft_read_file(char *str)
+unsigned short		**ft_read_file(char *str, unsigned short *all_pieces, int *n)
 {
-	int			ints[2];
-	ssize_t		ret;
-	char		buf[BUFF_SIZE + 1];
+	int								ints[2];
+	ssize_t						ret;
+	char							buf[BUFF_SIZE + 1];
+	unsigned short 		**tetros;
 
+	tetros = ft_memalloc(sizeof(unsigned short) * 26);
 	ints[1] = 0;
 	if ((ints[0] = open(str, O_RDONLY)) == -1)
-		ft_putstr("open() error");
+		ft_putstr("open() error\n");
 	while (1)
 	{
 		if ((ret = read(ints[0], buf, BUFF_SIZE)) <= 0)
 			break ;
-		buf[ret - 1] = '\0';
-		//ft_putchar('\n');
+		buf[BUFF_SIZE - 1] = '\0';
 		if (ft_isvalid(buf))
-		{
-			ft_code(buf);
-			//write(1, "\e[44mpas segfault\e[0m\n", 13 + 4 + 5);
-			// printf("address of codes : %X\n", (int)codes);
-			// codes[ints[1] - 1] = ft_code(buf);
-			// printf("buffer : \n%s\n", buf);
-			// printf("ft_code returns %d%d%d\n", (int)codes[ints[1] - 1][0], (int)codes[ints[1] - 1][1], (int)codes[ints[1] - 1][2]);
-		}
+			tetros[(*n)++] = ft_code(buf, all_pieces);
 		else
 			return (NULL);
 	}
 	if (close(ints[0]) == -1)
-		ft_putstr("close() error");
-	return (NULL);
+		ft_putstr("close() error\n");
+	return (tetros);
 }
 
 int main(int ac, char **av)
 {
+	unsigned short 	*all_pieces;
+	unsigned short 	**tetros;
+	unsigned short	**mappy;
+	int							n;
+
+	tetros = NULL;
+	n = 0;
 	if (ac > 1)
-		ft_read_file(av[1]);
-	return 0;
+	{
+		if ((all_pieces = ft_create_pieces()))
+		{
+			// // //
+			for (int i = 0; i < 19 * 4; i++)
+				printf("%hu\t%s", all_pieces[i], (i % 4 != 3 ? "" : "\n"));
+			// // //
+			tetros = ft_read_file(av[1], all_pieces, &n);
+			printf("tetros = %X\n", (int)tetros);
+			free(all_pieces);
+		}
+
+	// Votre code ici
+		if (!tetros)
+			ft_putstr("Mets moi une grille valide FDP!\n");
+		else
+			mappy = ft_mappy();
+		// // // //
+		printf("%d\n", n);
+		// // // //
+
+		if (tetros)
+		{
+			while (n--)
+			{
+				for (int i = 0; i < 4; i++)
+					printf("%hu\t", tetros[n][i]);
+				printf("\n");
+				free(tetros[n]);
+			}
+			free(tetros);
+		}
+	}
+	else
+		ft_putstr("Mets un fichier FDP!\n");
+	return (0);
 }

@@ -58,16 +58,16 @@ static  int     valid_shape(char *t)
 */
 int             ft_isvalid(char *t)
 {
-	if (*t && \
-			ft_strlen(t) == 20      && \
+//	if (
+    return (*t && \
+			      ft_strlen(t) == 20      && \
             t[4] ==     '\n'        && \
             t[9] ==     '\n'        && \
             t[14] ==    '\n'        && \
             t[19] ==    '\n'        && \
-			n_char(t, '\n') == 4    && \
-			n_char(t, '#')  == 4    && \
-			valid_shape(t)  >= 6    )
-		return (1);
-	}	
-     return(0);
+			      n_char(t, '\n') == 4    && \
+			      n_char(t, '#')  == 4    && \
+			      valid_shape(t)  >= 6    );
+//		return (1);
+//  return(0);
 }
