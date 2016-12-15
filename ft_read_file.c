@@ -106,7 +106,7 @@ int main(int ac, char **av)
 		// // // //
 		printf("%d\n", n);
 		// // // //
-
+		
 		if (tetros)
 		{
 			while (n--)

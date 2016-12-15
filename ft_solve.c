@@ -14,24 +14,71 @@
 
 /* fonctions */
 
-int       ft_column_max(unsigned short *tetro, int x)
+static int       ft_column_max(unsigned short *tetro, int x)
 {
-    unsigned short modula;
-    int i;
+  unsigned short modula;
+  int i;
 
-    i = 0;
-    modula = 0b1000000000000000;
-    modula >> (x - 1);
+  i = 0;
+  modula = 0b1000000000000000 >> (x - 1);
 
-    while (tetro[i] % modula == 0)
-	{
-		if (i == 3)
-			return (1);
-		i++;
-	}
-    return (0);
+  while (i < 3)
+    if (tetro[i++] % modula != 0)
+      return (0);
+  return (1)
 }
 
+int ft_place(unsigned short *mappy, unsigned short **tetro, int x, int y)
+{
+  >>
+  V
+  ft_place (mappy, tetro++, x, y);
+}
+
+int ft_solve(unsigned short mappy[16], unsigned short **tetros, int x, int y)
+{
+  unsigned short  map[16]
+  int             i;
+
+  i = -1;
+  while (++i < 16)
+    map[i] = mappy[i];
+  if (ft_place(map, tetro, x, y))
+    return (x, y);
+  ft_solve(map, tetro, x + 1, y + 1);
+}
+
+/*
+
+       x    0 1 2 3 4 5 6 7 8'9'A B C D E F
+
+      mappy :                'x'
+ y
+
+ 0          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ 1          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ 2          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ 3          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ 4          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ 5          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ 6          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ 7          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+'8' 'y'    "0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0"
+ 9          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ A          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ B          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ C          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ D          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ E          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+ F          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+
+      mask :
+            1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+
+*/
+
+/*
 
      x    0 1 2 3 4 5 6 7 8'9'A B C D E F
 
@@ -45,3 +92,4 @@ i
 3         0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
 
 %         0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+*/
