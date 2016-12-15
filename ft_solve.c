@@ -6,7 +6,7 @@
 /*   By: pamicel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:39:41 by pamicel           #+#    #+#             */
-/*   Updated: 2016/12/15 16:40:00 by pamicel          ###   ########.fr       */
+/*   Updated: 2016/12/15 17:54:37 by apissier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ int       ft_column_max(unsigned short *tetro, int x)
     modula = 0b1000000000000000;
     modula >> (x - 1);
 
-    while (tetro[i] % modula == 0 && i != 3)
-      i++;
-    return (1);
+    while (tetro[i] % modula == 0)
+	{
+		if (i == 3)
+			return (1);
+		i++;
+	}
     return (0);
 }
 
