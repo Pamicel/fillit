@@ -6,13 +6,32 @@
 /*   By: pamicel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/15 16:39:41 by pamicel           #+#    #+#             */
-/*   Updated: 2016/12/15 17:54:37 by apissier         ###   ########.fr       */
+/*   Updated: 2016/12/16 17:11:59 by apissier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 /* fonctions */
+
+unsigned short	ft_put_bits(unsigned short *tetro, unsigned short *map, int x)
+{
+	int			t;
+	int			m;
+
+	t = 0;
+	m = 0;
+	while (map)
+	{ 
+		if (tetro[i]^map[m] == tetro[i])
+		{
+			m++;
+            i++;
+		}
+		while (tetro[i]^map[m] != tetro[i] && ft_column_max(tetro, x))
+			tetro >> 1;
+	}
+}
 
 static int       ft_column_max(unsigned short *tetro, int x)
 {
