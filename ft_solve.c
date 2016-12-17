@@ -14,44 +14,77 @@
 
 /* fonctions */
 
-unsigned short	ft_put_bits(unsigned short *tetro, unsigned short *map, int x)
+static int       ft_is_left_of(int x, unsigned short *tetro, int shift)
 {
-	int			t;
-	int			m;
+	unsigned short	modula;
+	int							i;
 
-	t = 0;
-	m = 0;
-	while (map)
-	{ 
-		if (tetro[i]^map[m] == tetro[i])
+	i = 0;
+	modula = 0b1000000000000000 >> (x - 1);
+
+	while (i < 3)
+		if (tetro[i++] >> shift % modula != 0)
+			return (0);
+	return (1);
+}
+
+static int			ft_is_above(int y, unsigned short *map)
+{
+	return (map[y - 1] != 0);
+}
+
+/*
+**
+**
+*/
+
+static int	ft_collision(unsigned short *tetro, unsigned short *map)
+{
+	int i;
+	int ret;
+
+	ret = 1;
+	i = 0;
+	while (i < 4)
+		ret &= tetro[i] & map[i];
+	return (ret);
+}
+
+static int	ft_put_bits(unsigned short *tetro, unsigned short *map)
+{
+	int		i;
+	int		shift;
+
+	i = 0;
+	shift = 0;
+	if (ft_is_left_of(x, tetro, shift))
+		ft_put_bits(tetro, map, );
+	{
+		if (tetro[i] >> shift & map[i] == 0 && i < 4)
+      i++;
+		else
 		{
-			m++;
-            i++;
+			shift++;
+			i = 0;
 		}
-		while (tetro[i]^map[m] != tetro[i] && ft_column_max(tetro, x))
-			tetro >> 1;
+		if (i == 3)
+		{
+			map[0] |= tetro[0];
+			map[1] |= tetro[1];
+			map[2] |= tetro[2];
+			map[3] |= tetro[3];
+			return (1);
+		}
 	}
+	return (0);
 }
 
-static int       ft_column_max(unsigned short *tetro, int x)
+int ft_place(unsigned short *mappy, unsigned short *tetro, int[2] square, int[2] shifts)
 {
-  unsigned short modula;
-  int i;
-
-  i = 0;
-  modula = 0b1000000000000000 >> (x - 1);
-
-  while (i < 3)
-    if (tetro[i++] % modula != 0)
-      return (0);
-  return (1)
-}
-
-int ft_place(unsigned short *mappy, unsigned short **tetro, int x, int y)
-{
-  >>
-  V
-  ft_place (mappy, tetro++, x, y);
+	//		>>
+	if (ft_is_
+	//		V
+	ft_place (mappy, tetro++, x, y);
 }
 
 int ft_solve(unsigned short mappy[16], unsigned short **tetros, int x, int y)
