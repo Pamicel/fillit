@@ -12,6 +12,12 @@
 
 #include "fillit.h"
 
+static int			ft_is_above(int y, unsigned short *tetro, int index)
+{
+	if (tetro[0])
+	return (map[y - 1] != 0);
+}
+
 static int       ft_is_left_of(int x, unsigned short *tetro, int shift)
 {
 	unsigned short	modula;
@@ -26,35 +32,36 @@ static int       ft_is_left_of(int x, unsigned short *tetro, int shift)
 	return (1);
 }
 
-static void				ft_print_tetro_on_map(unsigned short *tetro_ptr, unsigned short *map_ptr)
+static void				ft_print_tetro_on_map(unsigned short *tetro, unsigned short *map)
 {
-	map_ptr[0] |= tetro_ptr[0];
-	if (tetro_ptr[1])
+	map[0] |= tetro[0];
+	if (tetro[1])
 	{
-		map_ptr[1] |= tetro_ptr[1];
-		if (tetro_ptr[2])
+		map[1] |= tetro[1];
+		if (tetro[2])
 		{
-			map_ptr[2] |= tetro_ptr[2];
-			if (tetro_ptr[3])
-				map_ptr[3] |= tetro_ptr[3];
+			map[2] |= tetro[2];
+			if (tetro[3])
+				map[3] |= tetro[3];
 		}
 	}
 }
 
-static void				ft_erase_tetro_from_map(unsigned short *tetro_ptr, unsigned short *map_ptr)
+static void				ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *map)
 {
-	map_ptr[0] ^= tetro_ptr[0];
-	if (tetro_ptr[1])
+	map[0] ^= tetro[0];
+	if (tetro[1])
 	{
-		map_ptr[1] ^= tetro_ptr[1];
-		if (tetro_ptr[2])
+		map[1] ^= tetro[1];
+		if (tetro[2])
 		{
-			map_ptr[2] ^= tetro_ptr[2];
-			if (tetro_ptr[3])
-				map_ptr[3] ^= tetro_ptr[3];
+			map[2] ^= tetro[2];
+			if (tetro[3])
+				map[3] ^= tetro[3];
 		}
 	}
 }
+
 
 // // // // // DEBUG PRINT & ERASE // // // // //
 // #include <stdio.h>
@@ -106,13 +113,8 @@ static void				ft_erase_tetro_from_map(unsigned short *tetro_ptr, unsigned short
 // 	print(map);
 // 	return 0;
 // }
-// // // // // // // // // // // // // // // // //
+// // // // // // // // // // // // // // // // // // //
 
-
-static int			ft_is_above(int y, unsigned short *map)
-{
-	return (map[y - 1] != 0);
-}
 
 /*
 **
