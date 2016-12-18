@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-//! PAS TESTEY
+//🍀 ! PAS TESTEY
 static int					ft_is_out_under(int y, unsigned short *tetro, int index)
 {
 	if (tetro[3])
@@ -24,7 +24,7 @@ static int					ft_is_out_under(int y, unsigned short *tetro, int index)
 	return ((y - index - 1) <= 0);
 }
 
-//! PAS TESTEY
+//🍀 ! PAS TESTEY
 static int  	     	ft_is_out_right(int x, unsigned short *tetro, int shift)
 {
 	unsigned short		modula;
@@ -39,7 +39,8 @@ static int  	     	ft_is_out_right(int x, unsigned short *tetro, int shift)
 	return (0);
 }
 
-// 😎 testey 😎
+
+// 😎  testey
 static int					ft_print_tetro_on_map(unsigned short *tetro, unsigned short *map)
 {
 	if (ft_can_print(tetro, map))
@@ -60,7 +61,7 @@ static int					ft_print_tetro_on_map(unsigned short *tetro, unsigned short *map)
 	return (0);
 }
 
-// 😎 testey 😎
+// 😎  testey
 static void					ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *map)
 {
 	map[0] ^= tetro[0];
@@ -76,7 +77,8 @@ static void					ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *m
 	}
 }
 
-//! PAS TESTEY
+
+//🍀 ! PAS TESTEY
 static int					ft_can_print(unsigned short *tetro, unsigned short *map)
 {
 	int 							i;
@@ -89,7 +91,7 @@ static int					ft_can_print(unsigned short *tetro, unsigned short *map)
 	return (!ret);
 }
 
-//! PAS TESTEY
+//🍀 ! PAS TESTEY
 static void 				ft_unshift(unsigned short *tetro, int shift)
 {
 	unsigned short 		go_to;
@@ -110,7 +112,7 @@ static void 				ft_unshift(unsigned short *tetro, int shift)
 	}
 }
 
-//! PAS TESTEY
+//🍀 ! PAS TESTEY
 static void 				ft_shift(unsigned short *tetro, int shift)
 {
 	unsigned short 		go_to;
@@ -142,7 +144,7 @@ static void 				ft_shift(unsigned short *tetro, int shift)
 ** ind[0] : nombre de tetrominos
 */
 
-//! PAS TESTEY
+//🍀 ! PAS TESTEY
 static int					ft_solve(unsigned short **tetros, unsigned short *map, int ind[5])
 {
 
