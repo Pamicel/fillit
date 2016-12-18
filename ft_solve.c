@@ -12,42 +12,64 @@
 
 #include "fillit.h"
 
-static int			ft_is_above(int y, unsigned short *tetro, int index)
+static int					ft_can_print(unsigned short *tetro, unsigned short *map)
 {
-	if (tetro[0])
-	return (map[y - 1] != 0);
+	int 							i;
+	int 							ret;
+
+	ret = 0;
+	i = 0;
+	while (i < 4)
+		ret ||= tetro[i] & map[i];
+	return (!ret);
 }
 
-static int       ft_is_left_of(int x, unsigned short *tetro, int shift)
+static int					ft_is_out_under(int y, unsigned short *tetro, int index)
 {
-	unsigned short	modula;
-	int							i;
+	if (tetro[3])
+		return ((y - index - 4) <= 0);
+	else if (tetro[2])
+		return ((y - index - 3) <= 0);
+	else if (tetro[1])
+		return ((y - index - 2) <= 0);
+	return ((y - index - 1) <= 0);
+}
+
+static int  	     	ft_is_out_right(int x, unsigned short *tetro, int shift)
+{
+	unsigned short		modula;
+	int								i;
 
 	i = 0;
 	modula = 0b1000000000000000 >> (x - 1);
 
 	while (i < 3)
 		if (tetro[i++] >> shift % modula != 0)
-			return (0);
-	return (1);
+			return (1);
+	return (0);
 }
 
-static void				ft_print_tetro_on_map(unsigned short *tetro, unsigned short *map)
+static int					ft_print_tetro_on_map(unsigned short *tetro, unsigned short *map)
 {
-	map[0] |= tetro[0];
-	if (tetro[1])
+	if (ft_can_print(tetro, map))
 	{
-		map[1] |= tetro[1];
-		if (tetro[2])
+		map[0] |= tetro[0];
+		if (tetro[1])
 		{
-			map[2] |= tetro[2];
-			if (tetro[3])
-				map[3] |= tetro[3];
+			map[1] |= tetro[1];
+			if (tetro[2])
+			{
+				map[2] |= tetro[2];
+				if (tetro[3])
+					map[3] |= tetro[3];
+			}
 		}
+		return (1);
 	}
+	return (0);
 }
 
-static void				ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *map)
+static void					ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *map)
 {
 	map[0] ^= tetro[0];
 	if (tetro[1])
@@ -61,6 +83,21 @@ static void				ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *ma
 		}
 	}
 }
+
+/*
+** 		arguments de ft_solve
+** ind[0] : nombre de tetrominos
+** ind[1] : numero du tetromino actuel
+** ind[2] : shift du tetromino
+** ind[3] : index de ligne (a partir de laquelle on fait le placement) de map
+** ind[4] : taille du cote du carre
+*/
+
+static int					ft_solve(unsigned short **tetros, unsigned short *map, int ind[5])
+{
+	
+}
+
 
 
 // // // // // DEBUG PRINT & ERASE // // // // //
@@ -115,24 +152,6 @@ static void				ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *ma
 // }
 // // // // // // // // // // // // // // // // // // //
 
-
-/*
-**
-**
-*/
-
-static int	ft_collision(unsigned short *tetro, unsigned short *map)
-{
-	int i;
-	int ret;
-
-	ret = 1;
-	i = 0;
-	while (i < 4)
-		ret &= tetro[i] & map[i];
-	return (ret);
-}
-
 // static int	ft_put_bits(unsigned short *tetro, unsigned short *map)
 // {
 // 	int		i;
@@ -161,37 +180,29 @@ static int	ft_collision(unsigned short *tetro, unsigned short *map)
 // 	}
 // 	return (0);
 // }
-
-int ft_place(unsigned short *mappy, unsigned short *tetro, int[2] square, int[2] shifts)
-{
-	//		>>
-	if (ft_is_
-	//		V
-	ft_place (mappy, tetro++, x, y);
-}
-
-int ft_solve(unsigned short mappy[16], unsigned short **tetros, int x, int y)
-{
-  unsigned short  map[16]
-  int             i;
-
-  i = -1;
-  while (++i < 16)
-    map[i] = mappy[i];
-  if (ft_place(map, tetro, x, y))
-    return (x, y);
-  ft_solve(map, tetro, x + 1, y + 1);
-}
-
-
-
-
-
-
-
-
-
-
+//
+// int ft_place(unsigned short *mappy, unsigned short *tetro, int[2] square, int[2] shifts)
+// {
+// 	//		>>
+// 	if (ft_is_
+// 	//		V
+// 	ft_place (mappy, tetro++, x, y);
+// }
+//
+// int ft_solve(unsigned short mappy[16], unsigned short **tetros, int x, int y)
+// {
+//   unsigned short  map[16]
+//   int             i;
+//
+//   i = -1;
+//   while (++i < 16)
+//     map[i] = mappy[i];
+//   if (ft_place(map, tetro, x, y))
+//     return (x, y);
+//   ft_solve(map, tetro, x + 1, y + 1);
+// }
+//
+//
 
 /*
 
@@ -221,20 +232,16 @@ int ft_solve(unsigned short mappy[16], unsigned short **tetros, int x, int y)
             1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 
-*/
-
-/*
-
-     x    0 1 2 3 4 5 6 7 8'9'A B C D E F
+     x      0 1 2 3 4 5 6 7 8'9'A B C D E F
 
 tetro :
 
 i
 
-0         0 0 0 0 0 0 0 0 1'1'0 0 0 0 0 0
-1         0 0 0 0 0 0 0 0 1'0'0 0 0 0 0 0
-2         0 0 0 0 0 0 0 0 1'0'0 0 0 0 0 0
-3         0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
+0           0 0 0 0 0 0 0 0 1'1'0 0 0 0 0 0
+1           0 0 0 0 0 0 0 0 1'0'0 0 0 0 0 0
+2           0 0 0 0 0 0 0 0 1'0'0 0 0 0 0 0
+3           0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
 
-%         0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
+%           0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0
 */
