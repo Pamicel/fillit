@@ -12,18 +12,7 @@
 
 #include "fillit.h"
 
-static int					ft_can_print(unsigned short *tetro, unsigned short *map)
-{
-	int 							i;
-	int 							ret;
-
-	ret = 0;
-	i = 0;
-	while (i < 4)
-		ret ||= tetro[i] & map[i];
-	return (!ret);
-}
-
+//! PAS TESTEY
 static int					ft_is_out_under(int y, unsigned short *tetro, int index)
 {
 	if (tetro[3])
@@ -35,6 +24,7 @@ static int					ft_is_out_under(int y, unsigned short *tetro, int index)
 	return ((y - index - 1) <= 0);
 }
 
+//! PAS TESTEY
 static int  	     	ft_is_out_right(int x, unsigned short *tetro, int shift)
 {
 	unsigned short		modula;
@@ -49,6 +39,7 @@ static int  	     	ft_is_out_right(int x, unsigned short *tetro, int shift)
 	return (0);
 }
 
+// 😎 testey 😎
 static int					ft_print_tetro_on_map(unsigned short *tetro, unsigned short *map)
 {
 	if (ft_can_print(tetro, map))
@@ -69,6 +60,7 @@ static int					ft_print_tetro_on_map(unsigned short *tetro, unsigned short *map)
 	return (0);
 }
 
+// 😎 testey 😎
 static void					ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *map)
 {
 	map[0] ^= tetro[0];
@@ -84,21 +76,95 @@ static void					ft_erase_tetro_from_map(unsigned short *tetro, unsigned short *m
 	}
 }
 
-/*
-** 		arguments de ft_solve
-** ind[0] : nombre de tetrominos
-** ind[1] : numero du tetromino actuel
-** ind[2] : shift du tetromino
-** ind[3] : index de ligne (a partir de laquelle on fait le placement) de map
-** ind[4] : taille du cote du carre
-*/
-
-static int					ft_solve(unsigned short **tetros, unsigned short *map, int ind[5])
+//! PAS TESTEY
+static int					ft_can_print(unsigned short *tetro, unsigned short *map)
 {
-	
+	int 							i;
+	int 							ret;
+
+	ret = 0;
+	i = 0;
+	while (i < 4)
+	ret ||= tetro[i] & map[i];
+	return (!ret);
 }
 
+//! PAS TESTEY
+static void 				ft_unshift(unsigned short *tetro, int shift)
+{
+	unsigned short 		go_to;
+	int 							stop;
 
+	stop = 0;
+	go_to = 0b1000000000000000 >> shift;
+	stop ||= tetro[0] & go_to;
+	stop ||= tetro[1] & go_to;
+	stop ||= tetro[2] & go_to;
+	stop ||= tetro[3] & go_to;
+	while (!stop)
+	{
+		stop ||= (tetro[0] <<= 1) & go_to;
+		stop ||= (tetro[1] <<= 1) & go_to;
+		stop ||= (tetro[2] <<= 1) & go_to;
+		stop ||= (tetro[3] <<= 1) & go_to;
+	}
+}
+
+//! PAS TESTEY
+static void 				ft_shift(unsigned short *tetro, int shift)
+{
+	unsigned short 		go_to;
+	int 							stop;
+
+	stop = 0;
+	go_to = 0b1000000000000000 >> shift;
+	stop ||= tetro[0] % go_to;
+	stop ||= tetro[1] % go_to;
+	stop ||= tetro[2] % go_to;
+	stop ||= tetro[3] % go_to;
+	if (stop)
+		ft_unshift(tetro, shift);
+	while (!stop)
+	{
+		stop ||= (tetro[0] >>= 1) % go_to;
+		stop ||= (tetro[1] >>= 1) % go_to;
+		stop ||= (tetro[2] >>= 1) % go_to;
+		stop ||= (tetro[3] >>= 1) % go_to;
+	}
+}
+
+/*
+** 		arguments de ft_solve
+** ind[4] : taille du cote du carre
+** ind[3] : index de ligne (a partir de laquelle on fait le placement) dans map
+** ind[2] : shift du tetromino
+** ind[1] : numero du tetromino actuel
+** ind[0] : nombre de tetrominos
+*/
+
+//! PAS TESTEY
+static int					ft_solve(unsigned short **tetros, unsigned short *map, int ind[5])
+{
+
+	if (ind[1] == ind[0])
+		return (1);
+	ft_shift(tetros[ind[1]], ind[2]);
+	if (ft_is_out_under(ind[4], tetros[ind[1]], ind[3]))
+		return (0);
+	if (ft_is_out_right(ind[4], tetros[ind[1]]))
+		if (!ft_solve(tetros, map, {ind[0], ind[1], 0, ind[3] + 1, ind[4]}))
+			return (0);
+	if (ft_can_print(tetros[ind[1]] >> ind[2], map[ind[3]]))
+		if (!ft_solve(tetros, map, {ind[0], ind[1] + 1, ind[2], ind[3], ind[4]}))
+			return (0);
+	else
+	{
+		ft_erase_tetro_from_map(tetros[ind[1]] >> ind[2], &(map[ind[3]]);
+		if (!ft_solve(tetros, map, {ind[0], ind[1], ind[2] + 1, ind[3], ind[4]}))
+			return (0);
+	}
+	return (1);
+}
 
 // // // // // DEBUG PRINT & ERASE // // // // //
 // #include <stdio.h>
