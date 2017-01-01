@@ -23,7 +23,7 @@ typedef unsigned short t_map[16];
 // - gerer le backtracking et l'initialisation du placement à zero
 
 // 😎  TESTEY
-static int					ft_is_out_under(int y, t_tro tetro, int index)
+int				ft_is_out_under(int y, t_tro tetro, int index)
 {
 	if (tetro[3])
 		return ((y - index - 4) < 0);
@@ -35,7 +35,7 @@ static int					ft_is_out_under(int y, t_tro tetro, int index)
 }
 
 // 😎  TESTEY
-static int  	     	ft_is_out_right(int x, t_tro tetro, int shift)
+int				ft_is_out_right(int x, t_tro tetro, int shift)
 {
 	unsigned short		modula;
 	int								i;
@@ -55,7 +55,7 @@ static int  	     	ft_is_out_right(int x, t_tro tetro, int shift)
 }
 
 // 😎  TESTEY
-static int					ft_can_print(t_tro tetro, int shift, t_map map, int index)
+int				ft_can_print(t_tro tetro, int shift, t_map map, int index)
 {
 	int 							ret;
 
@@ -75,7 +75,7 @@ static int					ft_can_print(t_tro tetro, int shift, t_map map, int index)
 }
 
 // 😎  TESTEY
-static int					ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index)
+int				ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index)
 {
 	if (ft_can_print(tetro, shift, map, index))
 	{
@@ -96,7 +96,7 @@ static int					ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int inde
 }
 
 // 😎  TESTEY
-static void					ft_erase_tetro_from_map(t_tro tetro, int shift, t_map map, int index)
+void			ft_erase_tetro_from_map(t_tro tetro, int shift, t_map map, int index)
 {
 	map[0 + index] ^= tetro[0] >> shift;
 	if (tetro[1])
@@ -112,7 +112,7 @@ static void					ft_erase_tetro_from_map(t_tro tetro, int shift, t_map map, int i
 }
 
 // PAS TESTEY
-int ft_move_tetro(t_tro tetro, int *shift, int *index, int num_of_tetro)
+int				ft_move_tetro(t_tro tetro, int *shift, int *index)
 {
 	if (ft_is_out_right(tetro, *shift, *index))
 	{
@@ -122,11 +122,7 @@ int ft_move_tetro(t_tro tetro, int *shift, int *index, int num_of_tetro)
 	else
 		*shift++;
 	if (ft_is_out_under(tetro, *shift, *index))
-	{
-		if (num_of_tetro == 0)
-			return (2);
 		return (0);
-	}
 	return (1);
 }
 
@@ -139,52 +135,21 @@ int ft_move_tetro(t_tro tetro, int *shift, int *index, int num_of_tetro)
 ** ind[0] : nombre de tetrominos (longueur de la liste des tetros)
 */
 
-// static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
-// {
-// 	int rec_ind[5];
-//
-// 	if (ind[1] == ind[0])
-// 		return (1);
-// 	while (1)
-// 	{
-// 		while (!ft_can_print(tetros[ind[1]], ind[2], ind[3]))
-// 		{
-// 			if (!ft_move_tetro(tetros[ind[1]], &(ind[2]), &(ind[3])))
-// 				return (0);
-// 		}
-// 		ft_print_tetro_on_map(tetros[ind[1]], ind[2], map, ind[3]);
-//
-// 		ft_memcpy(rec_ind, ind, sizeof(int) * 5);
-// 		rec_ind[3] = 0;
-// 		rec_ind[2] = 0;
-// 		rec_ind[1] = ind[1] + 1;
-//
-// 		if (ft_solve(tetros, map, rec_ind))
-// 			return (1);
-// 		else
-// 		{
-// 			ft_erase_tetro_from_map(tetros[ind[1]], ind[2], map, ind[3]);
-// 			if (!ft_move_tetro(tetros[ind[1]], &(ind[2]), &(ind[3])))
-// 				return (0);
-// 		}
-// 	}
-// 	return (1);
-// }
-
-// VERSION PLUS CLAIRE
+// PAS TESTEY
 static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
 {
 	int rec_ind[5];
 
-	if (num_of_tetro == n_tetros)
+	if (ind[1] == ind[0])
+		return (1);
 	while (1)
 	{
-		while (!ft_can_print(tetro, shift, index))
+		while (!ft_can_print(tetros[ind[1]], ind[2], ind[3]))
 		{
-			if (!ft_move_tetro(tetro, &shift, &index))
+			if (!ft_move_tetro(tetros[ind[1]], &(ind[2]), &(ind[3])))
 				return (0);
 		}
-		ft_print_tetro_on_map(tetro, shift, map, index);
+		ft_print_tetro_on_map(tetros[ind[1]], ind[2], map, ind[3]);
 
 		ft_memcpy(rec_ind, ind, sizeof(int) * 5);
 		rec_ind[3] = 0;
@@ -195,13 +160,62 @@ static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
 			return (1);
 		else
 		{
-			ft_erase_tetro_from_map(tetro, shift, map, index);
-			if (!ft_move_tetro(tetro, &shift, &index))
-				return (0);
+			ft_erase_tetro_from_map(tetros[ind[1]], ind[2], map, ind[3]);
+			if (!ft_move_tetro(tetros[ind[1]], &(ind[2]), &(ind[3])))
+				{
+					if (ind[1] == 0)
+					{
+						ind[4]++;
+						ind[3] = 0;
+						ind[2] = 0;
+						return (ft_solve(tetros, map, ind));
+					}
+					return (0);
+				}
 		}
 	}
 	return (1);
 }
+
+// VERSION PLUS CLAIRE
+// static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
+// {
+// 	int rec_ind[5];
+//
+// 	if (num_of_tetro == n_tetros)
+// 	while (1)
+// 	{
+// 		while (!ft_can_print(tetro, shift, index))
+// 		{
+// 			if (!ft_move_tetro(tetro, &shift, &index))
+// 				return (0);
+// 		}
+// 		ft_print_tetro_on_map(tetro, shift, map, index);
+//
+// 		ft_memcpy(rec_ind, ind, sizeof(int) * 5);
+// 		rec_ind[3] = 0;
+// 		rec_ind[2] = 0;
+// 		rec_ind[1] = ind[1] + 1;
+//
+// 		if (ft_solve(tetros, map, rec_ind))
+// 			return (1);
+// 		else
+// 		{
+// 			ft_erase_tetro_from_map(tetro, shift, map, index);
+// 			if (!ft_move_tetro(tetro, &shift, &index))
+// 			{
+// 				if (ind[1] == 0)
+// 				{
+// 					ind[2] = 0;
+// 					ind[3] = 0;
+// 					ind[4]++;
+// 					return (ft_solve(tetros, map, ind));
+// 				}
+// 				return (0);
+// 		}
+// 	}
+// 	return (1);
+// }
 
 /*
 ** 		arguments de ft_solve
