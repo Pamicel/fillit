@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
+typedef unsigned short t_tro[6];
+typedef unsigned short t_map[16];
 
 // // // // // // // // //
 #include <stdio.h>
@@ -21,7 +23,7 @@
 // - gerer le backtracking et l'initialisation du placement à zero
 
 // 😎  TESTEY
-static int					ft_is_out_under(int y, unsigned short *tetro, int index)
+static int					ft_is_out_under(int y, t_tro tetro, int index)
 {
 	if (tetro[3])
 		return ((y - index - 4) < 0);
@@ -33,7 +35,7 @@ static int					ft_is_out_under(int y, unsigned short *tetro, int index)
 }
 
 // 😎  TESTEY
-static int  	     	ft_is_out_right(int x, unsigned short *tetro, int shift)
+static int  	     	ft_is_out_right(int x, t_tro tetro, int shift)
 {
 	unsigned short		modula;
 	int								i;
@@ -53,7 +55,7 @@ static int  	     	ft_is_out_right(int x, unsigned short *tetro, int shift)
 }
 
 // 😎  TESTEY
-static int					ft_can_print(unsigned short *tetro, int shift, unsigned short *map, int index)
+static int					ft_can_print(t_tro tetro, int shift, t_map map, int index)
 {
 	int 							ret;
 
@@ -73,7 +75,7 @@ static int					ft_can_print(unsigned short *tetro, int shift, unsigned short *ma
 }
 
 // 😎  TESTEY
-static int					ft_print_tetro_on_map(unsigned short *tetro, int shift, unsigned short *map, int index)
+static int					ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index)
 {
 	if (ft_can_print(tetro, shift, map, index))
 	{
@@ -94,7 +96,7 @@ static int					ft_print_tetro_on_map(unsigned short *tetro, int shift, unsigned 
 }
 
 // 😎  TESTEY
-static void					ft_erase_tetro_from_map(unsigned short *tetro, int shift, unsigned short *map, int index)
+static void					ft_erase_tetro_from_map(t_tro tetro, int shift, t_map map, int index)
 {
 	map[0 + index] ^= tetro[0] >> shift;
 	if (tetro[1])
@@ -109,6 +111,98 @@ static void					ft_erase_tetro_from_map(unsigned short *tetro, int shift, unsign
 	}
 }
 
+// PAS TESTEY
+int ft_move_tetro(t_tro tetro, int *shift, int *index, int num_of_tetro)
+{
+	if (ft_is_out_right(tetro, *shift, *index))
+	{
+		*index++;
+		*shift = 0;
+	}
+	else
+		*shift++;
+	if (ft_is_out_under(tetro, *shift, *index))
+	{
+		if (num_of_tetro == 0)
+			return (2);
+		return (0);
+	}
+	return (1);
+}
+
+/*
+** 		arguments de ft_solve
+** ind[4] : taille du cote du carre (aussi appelé y ou x)
+** ind[3] : index de ligne (a partir de laquelle on fait le placement) dans map
+** ind[2] : shift du tetromino
+** ind[1] : numero du tetromino actuel (indice dans la liste des tetros)
+** ind[0] : nombre de tetrominos (longueur de la liste des tetros)
+*/
+
+// static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
+// {
+// 	int rec_ind[5];
+//
+// 	if (ind[1] == ind[0])
+// 		return (1);
+// 	while (1)
+// 	{
+// 		while (!ft_can_print(tetros[ind[1]], ind[2], ind[3]))
+// 		{
+// 			if (!ft_move_tetro(tetros[ind[1]], &(ind[2]), &(ind[3])))
+// 				return (0);
+// 		}
+// 		ft_print_tetro_on_map(tetros[ind[1]], ind[2], map, ind[3]);
+//
+// 		ft_memcpy(rec_ind, ind, sizeof(int) * 5);
+// 		rec_ind[3] = 0;
+// 		rec_ind[2] = 0;
+// 		rec_ind[1] = ind[1] + 1;
+//
+// 		if (ft_solve(tetros, map, rec_ind))
+// 			return (1);
+// 		else
+// 		{
+// 			ft_erase_tetro_from_map(tetros[ind[1]], ind[2], map, ind[3]);
+// 			if (!ft_move_tetro(tetros[ind[1]], &(ind[2]), &(ind[3])))
+// 				return (0);
+// 		}
+// 	}
+// 	return (1);
+// }
+
+// VERSION PLUS CLAIRE
+static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
+{
+	int rec_ind[5];
+
+	if (num_of_tetro == n_tetros)
+	while (1)
+	{
+		while (!ft_can_print(tetro, shift, index))
+		{
+			if (!ft_move_tetro(tetro, &shift, &index))
+				return (0);
+		}
+		ft_print_tetro_on_map(tetro, shift, map, index);
+
+		ft_memcpy(rec_ind, ind, sizeof(int) * 5);
+		rec_ind[3] = 0;
+		rec_ind[2] = 0;
+		rec_ind[1] = ind[1] + 1;
+
+		if (ft_solve(tetros, map, rec_ind))
+			return (1);
+		else
+		{
+			ft_erase_tetro_from_map(tetro, shift, map, index);
+			if (!ft_move_tetro(tetro, &shift, &index))
+				return (0);
+		}
+	}
+	return (1);
+}
+
 /*
 ** 		arguments de ft_solve
 ** ind[4] : taille du cote du carre (aussi appelé y ou x)
@@ -119,8 +213,8 @@ static void					ft_erase_tetro_from_map(unsigned short *tetro, int shift, unsign
 */
 
 // // 🍀 ! PAS TESTEY
-
-// static int					ft_solve(unsigned short **tetros, unsigned short *map, int ind[5])
+//
+// static int					ft_solve(unsigned short **tetros, t_map map, int ind[5])
 // {
 // 	int temp;
 //
@@ -163,9 +257,9 @@ static void					ft_erase_tetro_from_map(unsigned short *tetro, int shift, unsign
 // 	}
 // 	return (1);
 // }
-
+//
 // //💩 innutile
-// static void 				ft_unshift(unsigned short *tetro, int shift)
+// static void 				ft_unshift(t_tro tetro, int shift)
 // {
 // 	unsigned short 		go_to;
 // 	int 							stop;
@@ -184,9 +278,9 @@ static void					ft_erase_tetro_from_map(unsigned short *tetro, int shift, unsign
 // 		stop ||= (tetro[3] <<= 1) & go_to;
 // 	}
 // }
-//
+
 // //💩 innutile
-// static void 				ft_shift(unsigned short *tetro, int shift)
+// static void 				ft_shift(t_tro tetro, int shift)
 // {
 // 	unsigned short 		go_to;
 // 	int 							stop;
@@ -206,6 +300,27 @@ static void					ft_erase_tetro_from_map(unsigned short *tetro, int shift, unsign
 // 		stop ||= (tetro[2] >>= 1) % go_to;
 // 		stop ||= (tetro[3] >>= 1) % go_to;
 // 	}
+// }
+
+
+// 🎁  Nouveau
+
+/*
+** 		ind
+**
+** ind[4] : taille du cote du carre (aussi appelé y ou x ou size)
+** ind[3] : index de ligne (a partir de laquelle on fait le placement) dans map
+** ind[2] : shift du tetromino
+** ind[1] : numero du tetromino actuel (indice dans la liste des tetros)
+** ind[0] : nombre de tetrominos (longueur de la liste des tetros)
+*/
+
+// static int ft_fillit(unsigned short **tetros, t_map map, int ind[5], t_data data)
+// {
+// 	// 1- verifie que le tetro est dans le carré
+// 			// si il est en dessous return (0)
+// 			// si il est a droite return(ft_fillit avec ind[2] = 0 et ind[3] += 1);
+// 	// 2-
 // }
 
 
@@ -236,7 +351,7 @@ static void print(unsigned short *us, int size)
 	}
 }
 
-static void print_at(unsigned short *tetro, int shift, unsigned short *map, int index)
+static void print_at(t_tro tetro, int shift, t_map map, int index)
 {
 	ft_print_tetro_on_map(tetro, shift, map, index);
 	print(map, 16);
@@ -334,7 +449,7 @@ int main()
 }
 // // // // // // // // // // // // // // // // // //
 
-// static int	ft_put_bits(unsigned short *tetro, unsigned short *map)
+// static int	ft_put_bits(t_tro tetro, t_map map)
 // {
 // 	int		i;
 // 	int		shift;
@@ -363,7 +478,7 @@ int main()
 // 	return (0);
 // }
 //
-// int ft_place(unsigned short *mappy, unsigned short *tetro, int[2] square, int[2] shifts)
+// int ft_place(t_map mappy, t_tro tetro, int[2] square, int[2] shifts)
 // {
 // 	//		>>
 // 	if (ft_is_
