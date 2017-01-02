@@ -112,16 +112,16 @@ void			ft_erase_tetro_from_map(t_tro tetro, int shift, t_map map, int index)
 }
 
 // PAS TESTEY
-int				ft_move_tetro(t_tro tetro, int *shift, int *index)
+int				ft_move_tetro(t_tro tetro, int *shift, int *index, int size)
 {
-	if (ft_is_out_right(tetro, *shift, *index))
+	if (ft_is_out_right(size, tetro, *shift))
 	{
 		*index++;
 		*shift = 0;
 	}
 	else
 		*shift++;
-	if (ft_is_out_under(tetro, *shift, *index))
+	if (ft_is_out_under(size, tetro, *index))
 		return (0);
 	return (1);
 }
@@ -138,7 +138,7 @@ int				ft_move_tetro(t_tro tetro, int *shift, int *index)
 ** ft_sqrt from Wikipedia
 */
 
-// PAS TESTEY
+// 😎  TESTEY
 static int ft_sqrt(int num)
 {
     int res = 0;
@@ -167,6 +167,7 @@ int									ft_fillit(t_tro *tetros, int n_tetros)
 	int ind[5];
 
 	ind[4] = ft_sqrt(n_tetros);
+	ind[4] += n_tetros > (ind[4] * ind[4]);
 	ind[3] = 0;
 	ind[2] = 0;
 	ind[1] = 0;
