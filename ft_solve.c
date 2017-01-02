@@ -127,19 +127,18 @@ int				ft_move_tetro(t_tro tetro, int *shift, int *index)
 }
 
 /*
-** 		arguments de ft_solve
+** 		arguments
 ** ind[4] : taille du cote du carre (aussi appelé y ou x)
 ** ind[3] : index de ligne (a partir de laquelle on fait le placement) dans map
 ** ind[2] : shift du tetromino
 ** ind[1] : numero du tetromino actuel (indice dans la liste des tetros)
 ** ind[0] : nombre de tetrominos (longueur de la liste des tetros)
 */
-
-// PAS TESTEY
 /*
 ** ft_sqrt from Wikipedia
 */
 
+// PAS TESTEY
 static int ft_sqrt(int num)
 {
     int res = 0;
@@ -161,6 +160,7 @@ static int ft_sqrt(int num)
     return res;
 }
 
+// PAS TESTEY
 int									ft_fillit(t_tro *tetros, int n_tetros)
 {
 	t_map map;
@@ -181,6 +181,7 @@ int									ft_fillit(t_tro *tetros, int n_tetros)
 	return (ind[4]);
 }
 
+// PAS TESTEY
 static void 				ft_set_ind_next_tetro(int rec_ind[5], int ind[5])
 {
 	rec_ind[4] = ind[4];
@@ -190,6 +191,7 @@ static void 				ft_set_ind_next_tetro(int rec_ind[5], int ind[5])
 	rec_ind[0] = ind[0];
 }
 
+// PAS TESTEY
 static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
 {
 	int rec_ind[5];
