@@ -136,6 +136,60 @@ int				ft_move_tetro(t_tro tetro, int *shift, int *index)
 */
 
 // PAS TESTEY
+/*
+** ft_sqrt from Wikipedia
+*/
+
+static int ft_sqrt(int num)
+{
+    int res = 0;
+    int bit = 1 << 30;
+
+    while (bit > num)
+        bit >>= 2;
+    while (bit != 0)
+		{
+        if (num >= res + bit)
+				{
+            num -= res + bit;
+            res = (res >> 1) + bit;
+        }
+        else
+            res >>= 1;
+        bit >>= 2;
+    }
+    return res;
+}
+
+int									ft_fillit(t_tro *tetros, int n_tetros)
+{
+	t_map map;
+	int ind[5];
+
+	ind[4] = ft_sqrt(n_tetros);
+	ind[3] = 0;
+	ind[2] = 0;
+	ind[1] = 0;
+	ind[0] = n_tetros;
+	while (!ft_solve(tetros, map, ind))
+	{
+		ind[4]++;
+		ind[3] = 0;
+		ind[2] = 0;
+		ind[1] = 0;
+	}
+	return (ind[4]);
+}
+
+static void 				ft_set_ind_next_tetro(int rec_ind[5], int ind[5])
+{
+	rec_ind[4] = ind[4];
+	rec_ind[3] = 0;
+	rec_ind[2] = 0;
+	rec_ind[1] = ind[1] + 1;
+	rec_ind[0] = ind[0];
+}
+
 static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
 {
 	int rec_ind[5];
@@ -150,28 +204,14 @@ static int					ft_solve(t_tro *tetros, t_map map, int ind[5])
 				return (0);
 		}
 		ft_print_tetro_on_map(tetros[ind[1]], ind[2], map, ind[3]);
-
-		ft_memcpy(rec_ind, ind, sizeof(int) * 5);
-		rec_ind[3] = 0;
-		rec_ind[2] = 0;
-		rec_ind[1] = ind[1] + 1;
-
+		ft_set_ind_next_tetro(rec_ind, ind);
 		if (ft_solve(tetros, map, rec_ind))
 			return (1);
 		else
 		{
 			ft_erase_tetro_from_map(tetros[ind[1]], ind[2], map, ind[3]);
 			if (!ft_move_tetro(tetros[ind[1]], &(ind[2]), &(ind[3])))
-				{
-					if (ind[1] == 0)
-					{
-						ind[4]++;
-						ind[3] = 0;
-						ind[2] = 0;
-						return (ft_solve(tetros, map, ind));
-					}
 					return (0);
-				}
 		}
 	}
 	return (1);
