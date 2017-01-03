@@ -76,7 +76,6 @@ int				ft_fillit(t_tro tetros[26], int n_tetros)
 
 	ft_memset(map, 0, sizeof(unsigned short) * 16);
 	ind[4] = ft_sqrt(n_tetros);
-	ind[4] += n_tetros > (ind[4] * ind[4]);
 	ind[4] *= 2;
 	ind[3] = 0;
 	ind[2] = 0;
@@ -117,6 +116,6 @@ int main(int ac, char **av)
 		ft_print_result(tetros, n, size);
 	}
 	else
-		ft_putstr("\e[42mUSAGE\e[0m\n");
+		ft_putstr("\e[30;42m USAGE \e[0m\n");
 	return (0);
 }
