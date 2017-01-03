@@ -11,115 +11,82 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-// // //
-#include <stdio.h>
-// // //
 
-#define BUFF_SIZE 21
-
-static unsigned short **ft_mappy(void)
+static int		n_char(char *t, char c)
 {
-	unsigned short **map;
+    int n;
 
-	map =	ft_memalloc(sizeof(unsigned short) * 16);
-	return (map);
-}
-
-static unsigned short *ft_create_pieces(void)
-{
-	unsigned short 	*all_pieces;
-
-	all_pieces = (unsigned short*)ft_memalloc(sizeof(unsigned short) * 19 * 4);
-	if (!all_pieces)
-		return (NULL);
-	ft_memcpy(all_pieces,\
-		(unsigned short[19 * 4]){16384, 57344, 0, 0, 16384, 49152, 16384, 0, \
-		57344, 16384, 0, 0, 32768, 49152, 32768, 0, 32768, 49152, 16384, 0, \
-		49152, 24576, 0, 0, 16384, 49152, 32768, 0, 24576, 49152, 0, 0, \
-		32768, 32768, 32768, 32768, 61440, 0, 0, 0, 49152, 49152, 0, 0, \
-		49152, 32768, 32768, 0, 16384, 16384, 49152, 0, 57344, 8192, 0, 0, \
-		32768, 57344, 0, 0, 49152, 16384, 16384, 0, 32768, 32768, 49152, 0,\
-		8192, 57344, 0, 0, 57344, 32768, 0, 0},\
-		sizeof(unsigned short) * 19 * 4);
-	return (all_pieces);
+    n = 0;
+    while (*t)
+        n += (c == *(t++));
+    return (n);
 }
 
 /*
-** ft_read_file :
-** ints[0] fd
-** ints[1] nbr of codes ( <=> tetrominos )
+** valid_shape can only be used with a valid grid with a valid nbr of '#'s
 */
 
-unsigned short		**ft_read_file(char *str, unsigned short *all_pieces, int *n)
+static int		valid_shape(char *tetro)
 {
-	int								ints[2];
-	ssize_t						ret;
-	char							buf[BUFF_SIZE + 1];
-	unsigned short 		**tetros;
+    int i;
+    int total;
+    int n;
 
-	tetros = ft_memalloc(sizeof(unsigned short) * 26);
-	ints[1] = 0;
-	if ((ints[0] = open(str, O_RDONLY)) == -1)
+    n = 0;
+    total = 0;
+    i = 0;
+    while (i < 20)
+    {
+        n = 0;
+        if (tetro[i] == '#')
+        {
+            n += (i <= 14 ? tetro[i + 5] == '#' : 0) + \
+                (i >= 5 ? tetro[i - 5] == '#' : 0) + \
+                (i >= 1 ? tetro[i - 1] == '#' : 0) + \
+                (i <= 18 ? tetro[i + 1] == '#' : 0);
+            if (n == 0)
+                return (0);
+        }
+        i++;
+        total += n;
+    }
+    return (total);
+}
+
+static int		ft_isvalid(char *tetro)
+{
+    return (*tetro && \
+            ft_strlen(tetro) == 20 && \
+            tetro[4] == '\n' && \
+            tetro[9] == '\n' && \
+            tetro[14] == '\n' && \
+            tetro[19] == '\n' && \
+            n_char(tetro, '\n') == 4 && \
+            n_char(tetro, '#') == 4 && \
+            valid_shape(tetro) >= 6);
+}
+
+int 			ft_read_file(char *str, unsigned short *all_tetros, int *n, t_tro tetros[26])
+{
+	int			fd;
+	int			n_codes;
+	ssize_t		ret;
+	char		buf[BUFF_SIZE + 1];
+
+	n_codes = 0;
+	if ((fd = open(str, O_RDONLY)) == -1)
 		ft_putstr("open() error\n");
 	while (1)
 	{
-		if ((ret = read(ints[0], buf, BUFF_SIZE)) <= 0)
+		if ((ret = read(fd, buf, BUFF_SIZE)) <= 0)
 			break ;
 		buf[BUFF_SIZE - 1] = '\0';
 		if (ft_isvalid(buf))
-			tetros[(*n)++] = ft_code(buf, all_pieces);
+			ft_get_tetro(buf, all_tetros, tetros[(*n)++]);
 		else
-			return (NULL);
+			return (0);
 	}
-	if (close(ints[0]) == -1)
+	if (close(fd) == -1)
 		ft_putstr("close() error\n");
-	return (tetros);
-}
-
-int main(int ac, char **av)
-{
-	unsigned short 	*all_pieces;
-	unsigned short 	**tetros;
-	unsigned short	**mappy;
-	int							n;
-
-	tetros = NULL;
-	n = 0;
-	if (ac > 1)
-	{
-		if ((all_pieces = ft_create_pieces()))
-		{
-			// // //
-			for (int i = 0; i < 19 * 4; i++)
-				printf("%hu\t%s", all_pieces[i], (i % 4 != 3 ? "" : "\n"));
-			// // //
-			tetros = ft_read_file(av[1], all_pieces, &n);
-			printf("tetros = %X\n", (int)tetros);
-			free(all_pieces);
-		}
-
-	// Votre code ici
-		if (!tetros)
-			ft_putstr("Mets moi une grille valide FDP!\n");
-		else
-			mappy = ft_mappy();
-		// // // //
-		printf("%d\n", n);
-		// // // //
-		
-		if (tetros)
-		{
-			while (n--)
-			{
-				for (int i = 0; i < 4; i++)
-					printf("%hu\t", tetros[n][i]);
-				printf("\n");
-				free(tetros[n]);
-			}
-			free(tetros);
-		}
-	}
-	else
-		ft_putstr("Mets un fichier FDP!\n");
-	return (0);
+	return (1);
 }

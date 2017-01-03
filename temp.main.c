@@ -93,7 +93,7 @@ void			ft_erase_tetro_from_map(t_tro tetro, int shift, t_map map, int index)
 	}
 }
 
-// PAS TESTEY
+// 😎  TESTEY
 int				ft_move_tetro(t_tro tetro, int *shift, int *index, int size)
 {
 	if (ft_is_out_right(size, tetro, *shift + 1))
@@ -107,6 +107,11 @@ int				ft_move_tetro(t_tro tetro, int *shift, int *index, int size)
 		return (0);
 	return (1);
 }
+
+
+    ///////////////////////////
+   ////////   DEBUG   ////////
+  ///////////////////////////
 
 static char *bigger_mother_fucker(char *str, int n_digits)
 {
@@ -137,14 +142,14 @@ static void print_at(t_tro tetro, int shift, t_map map, int index)
 
 int main()
 {
-	unsigned short tetro[] = {0b1000000000000000, 0b0000000000000000, 0b0000000000000000, 0b0000000000000000};
+	unsigned short tetro[] = {0b1000000000000000, 0b1000000000000000, 0b1000000000000000, 0b1000000000000000};
 	unsigned short map[] = {0b0000000000000000, 0b0000000000000000, 0b0000000000000000, 0b0000000000000000,\
 													0b0000000000000000, 0b0000000000000000, 0b0000000000000000, 0b0000000000000000,\
 													0b0000000000000000, 0b0000000000000000, 0b0000000000000000, 0b0000000000000000,\
 		 											0b0000000000000000, 0b0000000000000000, 0b0000000000000000, 0b0000000000000000};
 	int shift = 0;
 	int index = 0;
-	int size = 2;
+	int size = 5;
 
 	do {
 		printf("index = %d\n", index);

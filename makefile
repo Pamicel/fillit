@@ -13,9 +13,11 @@
 NAME = libfillit.a
 CFLAGS += -Wall -Wextra -Werror
 CC = cc
-SRC = ft_isvalid.c \
-	ft_code.c \
-	ft_read_file.c
+SRC = ft_get_tetro.c \
+	ft_read_file.c \
+	ft_binary.c \
+	ft_solve.c \
+	ft_print_result.c
 
 OBJ = $(SRC:.c=.o)
 

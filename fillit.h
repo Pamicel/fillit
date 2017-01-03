@@ -19,37 +19,18 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include "libft.h"
+# define TETRO_SIZE 6
+#define BUFF_SIZE 21
 
-unsigned short 		**ft_read_file(char *str, unsigned short *all_pieces, int *n);
-int				        ft_isvalid(char *t);
-//char			*ft_realloc(char *str, size_t size);
-unsigned short		*ft_code(char *str, unsigned short *all_pieces);
+typedef unsigned short  t_tro[TETRO_SIZE];
+typedef unsigned short  t_map[16];
+
+int	    	            ft_read_file(char *str, unsigned short *all_tetros, int *n, t_tro tetros[26]);
+int			            ft_get_tetro(char *str, unsigned short *all_tetros, t_tro tetro);
+int				        ft_solve(t_tro tetros[26], t_map map, int ind[5]);
+int						ft_fillit(t_tro tetros[26], int n_tetros);
+void					ft_print_result(t_tro tetros[26], int n_tetros, int size);
+int                     ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index);
+int                     ft_move_tetro(t_tro tetro, int *shift, int *index, int size);
 
 #endif
-
-
-/*
-
-      x    0 1 2 3 4 5 6 7 8'9'A B C D E F
-y
-
-0          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-1          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-2          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-3          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-4          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-5          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-6          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-7          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-'8'       "0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0"
-9          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-A          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-B          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-C          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-D          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-E          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-F          0 0 0 0 0 0 0 0 0'0'0 0 0 0 0 0
-
-%          1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-
-*/
