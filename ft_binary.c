@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_binary.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pamicel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/10 15:58:00 by pamicel           #+#    #+#             */
+/*   Updated: 2017/01/10 15:58:02 by pamicel          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
-// 😎  TESTEY
-static int		ft_is_out_under(int y, t_tro tetro, int index)
+int					ft_is_out_under(int y, t_tro tetro, int index)
 {
 	if (tetro[3])
 		return ((y - index - 4) < 0);
@@ -12,8 +23,7 @@ static int		ft_is_out_under(int y, t_tro tetro, int index)
 	return ((y - index - 1) < 0);
 }
 
-// 😎  TESTEY
-static int		ft_is_out_right(int x, t_tro tetro, int shift)
+static int			ft_is_out_right(int x, t_tro tetro, int shift)
 {
 	unsigned short	modula;
 	int				i;
@@ -32,10 +42,9 @@ static int		ft_is_out_right(int x, t_tro tetro, int shift)
 	return (0);
 }
 
-// 😎  TESTEY
-static int		ft_can_print(t_tro tetro, int shift, t_map map, int index)
+static int			ft_can_print(t_tro tetro, int shift, t_map map, int index)
 {
-	int 		ret;
+	int 			ret;
 
 	ret = 0;
 	ret = ret || (tetro[0] >> shift) & map[index];
@@ -52,8 +61,7 @@ static int		ft_can_print(t_tro tetro, int shift, t_map map, int index)
 	return (!ret);
 }
 
-// 😎  TESTEY
-int				ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index)
+int					ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index)
 {
 	if (ft_can_print(tetro, shift, map, index))
 	{
@@ -75,9 +83,7 @@ int				ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index)
 	return (0);
 }
 
-
-// 😎  TESTEY
-int				ft_move_tetro(t_tro tetro, int *shift, int *index, int size)
+int					ft_move_tetro(t_tro tetro, int *shift, int *index, int size)
 {
 	if (ft_is_out_right(size, tetro, *shift + 1))
 	{

@@ -10,7 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libfillit.a
+NAME = fillit
+LIBNAME = libfillit.a
 CFLAGS += -Wall -Wextra -Werror
 CC = cc
 SRC = ft_get_tetro.c \
@@ -18,17 +19,23 @@ SRC = ft_get_tetro.c \
 	ft_binary.c \
 	ft_solve.c \
 	ft_print_result.c
+FLAGS = -Wall -Werror -Wextra
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	    ar rcs $(NAME) $(OBJ)
+$(NAME): $(LIBNAME)
+			gcc $(FLAGS) -o $(NAME) ft_fillit.c -L . -lfillit -lft
+
+$(LIBNAME): $(OBJ)
+			ar rcs $(LIBNAME) $(OBJ)
+
 clean:
-	    rm -rf $(OBJ)
+			rm -rf $(OBJ)
+			rm -rf $(LIBNAME)
 
 fclean: clean
-	    rm -rf $(NAME)
+			rm -rf $(NAME)
 
 re: fclean all

@@ -12,13 +12,9 @@
 
 #include "fillit.h"
 
-/*
-** ft_sqrt (c) Wikipedia
-*/
-
-static unsigned short *ft_generate_tetros(void)
+static unsigned short	*ft_generate_tetros(void)
 {
-	unsigned short	*all_pieces;
+	unsigned short		*all_pieces;
 
 	all_pieces = (unsigned short*)ft_memalloc(sizeof(unsigned short) * 19 * 4);
 	if (!all_pieces)
@@ -35,11 +31,14 @@ static unsigned short *ft_generate_tetros(void)
 	return (all_pieces);
 }
 
-// 😎  TESTEY
-static int 		ft_sqrt(int num)
+/*
+** Thank you Wikipedia for this bioutifoul ft_sqrt()
+*/
+
+static int				ft_sqrt(int num)
 {
-	int res;
-	int bit;
+	int					res;
+	int					bit;
 
 	res = 0;
 	bit = 1 << 30;
@@ -60,19 +59,18 @@ static int 		ft_sqrt(int num)
 }
 
 /*
-** 		arguments
-** ind[4] : taille du cote du carre (aussi appelé y ou x)
-** ind[3] : index de ligne (a partir de laquelle on fait le placement) dans map
-** ind[2] : shift du tetromino
-** ind[1] : numero du tetromino actuel (indice dans la liste des tetros)
-** ind[0] : nombre de tetrominos (longueur de la liste des tetros)
+** 		arguments to ft_solve
+** ind[4] : square size (aka y or x in some functions)
+** ind[3] : line index (from which the placement is done) in map
+** ind[2] : shift value for the tetromino
+** ind[1] : current tetromino (index in the list of tetros)
+** ind[0] : number of tetrominos (length of the list of tetros)
 */
 
-// 😎  TESTEY
-int				ft_fillit(t_tro tetros[26], int n_tetros)
+int						ft_fillit(t_tro tetros[26], int n_tetros)
 {
-	t_map map;
-	int ind[5];
+	t_map				map;
+	int					ind[5];
 
 	ft_memset(map, 0, sizeof(unsigned short) * 16);
 	ind[4] = ft_sqrt(n_tetros);
@@ -91,31 +89,33 @@ int				ft_fillit(t_tro tetros[26], int n_tetros)
 	return (ind[4]);
 }
 
-int main(int ac, char **av)
+int						main(int ac, char **av)
 {
-	unsigned short 	*all_tetros;
-	t_tro			tetros[26];
-	int				n;
-	int				size;
+	unsigned short		*all_tetros;
+	t_tro				tetros[26];
+	int					n;
+	int					size;
 
+	// // // //
+	FD = open("chemin.txt", O_RDWR);
+	// // // //
 	n = 0;
 	if (ac > 1)
 	{
 		if ((all_tetros = ft_generate_tetros()))
 		{
 			if (!ft_read_file(av[1], all_tetros, &n, tetros))
-				ft_putstr("\e[41mexit\e[0m");
+				ft_putstr("Error : grid is invalid\n");
 			free(all_tetros);
 		}
 		if (!n)
-		{
-			ft_putstr("La grille est vide ou invalide\n");
 			return (0);
-		}
 		size = ft_fillit(tetros, n);
+		while (ft_is_out_under(size, tetros[0], 0))
+			size++;
 		ft_print_result(tetros, n, size);
 	}
 	else
-		ft_putstr("\e[30;42m USAGE \e[0m\n");
+		ft_putstr("usage : ./fillit <text_file>\n");
 	return (0);
 }

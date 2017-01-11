@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_code.c                                          :+:      :+:    :+:   */
+/*   ft_get_tetro.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,8 +12,7 @@
 
 #include "fillit.h"
 
-// 😎  TESTEY
-static void		ft_make_code(char *code, char *str, int i_str)
+static void	ft_make_code(char *code, char *str, int i_str)
 {
 	int		i_code;
 	char	c;
@@ -33,8 +32,7 @@ static void		ft_make_code(char *code, char *str, int i_str)
 	}
 }
 
-// 😎  TESTEY
-static void		ft_code_to_bin(char *str, unsigned short *all_tetros, t_tro tetro)
+static void	ft_code_to_bin(char *str, unsigned short *all_tetros, t_tro tetro)
 {
 	char	*all_codes;
 	int 	i;
@@ -46,7 +44,6 @@ static void		ft_code_to_bin(char *str, unsigned short *all_tetros, t_tro tetro)
 	ft_memcpy(tetro, &(all_tetros[i * 4]), 4 * sizeof(unsigned short));
 }
 
-// 😎  TESTEY
 int			ft_get_tetro(char *str, unsigned short *all_tetros, t_tro tetro)
 {
 	int 	i_str;

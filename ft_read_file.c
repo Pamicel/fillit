@@ -14,7 +14,7 @@
 
 static int		n_char(char *t, char c)
 {
-    int n;
+    int			n;
 
     n = 0;
     while (*t)
@@ -28,9 +28,9 @@ static int		n_char(char *t, char c)
 
 static int		valid_shape(char *tetro)
 {
-    int i;
-    int total;
-    int n;
+    int			i;
+    int			total;
+    int			n;
 
     n = 0;
     total = 0;
@@ -66,6 +66,12 @@ static int		ft_isvalid(char *tetro)
             valid_shape(tetro) >= 6);
 }
 
+int				ft_open_error(void)
+{
+	ft_putstr("open() error\n");
+	return (0);
+}
+
 int 			ft_read_file(char *str, unsigned short *all_tetros, int *n, t_tro tetros[26])
 {
 	int			fd;
@@ -75,7 +81,7 @@ int 			ft_read_file(char *str, unsigned short *all_tetros, int *n, t_tro tetros[
 
 	n_codes = 0;
 	if ((fd = open(str, O_RDONLY)) == -1)
-		ft_putstr("open() error\n");
+		return (ft_open_error());
 	while (1)
 	{
 		if ((ret = read(fd, buf, BUFF_SIZE)) <= 0)

@@ -6,7 +6,7 @@
 /*   By: apissier <apissier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/08 16:56:09 by apissier          #+#    #+#             */
-/*   Updated: 2016/12/12 15:17:32 by apissier         ###   ########.fr       */
+/*   Updated: 2017/01/10 15:58:53 by pamicel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@
 typedef unsigned short  t_tro[TETRO_SIZE];
 typedef unsigned short  t_map[16];
 
-int	    	            ft_read_file(char *str, unsigned short *all_tetros, int *n, t_tro tetros[26]);
-int			            ft_get_tetro(char *str, unsigned short *all_tetros, t_tro tetro);
-int				        ft_solve(t_tro tetros[26], t_map map, int ind[5]);
-int						ft_fillit(t_tro tetros[26], int n_tetros);
-void					ft_print_result(t_tro tetros[26], int n_tetros, int size);
-int                     ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index);
-int                     ft_move_tetro(t_tro tetro, int *shift, int *index, int size);
+int FD;
+
+int		ft_is_out_under(int y, t_tro tetro, int index);
+int	    ft_read_file(char *str, unsigned short *all_tetros, int *n,\
+	 t_tro tetros[26]);
+int		ft_get_tetro(char *str, unsigned short *all_tetros, t_tro tetro);
+int		ft_solve(t_tro tetros[26], t_map map, int ind[5]);
+int		ft_fillit(t_tro tetros[26], int n_tetros);
+void	ft_print_result(t_tro tetros[26], int n_tetros, int size);
+int		ft_print_tetro_on_map(t_tro tetro, int shift, t_map map, int index);
+int		ft_move_tetro(t_tro tetro, int *shift, int *index, int size);
 
 #endif
